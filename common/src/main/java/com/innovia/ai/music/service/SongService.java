@@ -1,4 +1,4 @@
-package com.innovia.ai.music;
+package com.innovia.ai.music.service;
 
 import ch.qos.logback.core.encoder.ByteArrayUtil;
 import com.innovia.ai.music.datasource.db.model.SongModel;
@@ -6,6 +6,7 @@ import com.innovia.ai.music.datasource.db.repository.SongRepository;
 import com.innovia.ai.music.dto.Song;
 import com.innovia.ai.music.exceptions.NotFoundException;
 import com.innovia.ai.music.mapper.SongMapper;
+import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,8 +28,13 @@ public class SongService {
     @Autowired
     SongRepository songRepository;
 
-    @Autowired
+    @Setter
     SongMapper songMapper;
+
+    @Autowired
+    public SongService(SongMapper mapper) {
+        this.songMapper = mapper;
+    }
 
 
     public void create(@Validated Song song) {
@@ -37,7 +43,7 @@ public class SongService {
         songRepository.insert(model);
     }
 
-    public Song update(@Valid Song song) {
+    public Song update(@NotNull @Valid Song song) {
         Optional<SongModel> optionalModel = songRepository.findById(song.getId());
         if (optionalModel.isEmpty()) {
             throw new NotFoundException("Song with the specified Id does not exist");

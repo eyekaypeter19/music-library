@@ -6,8 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 @Configuration
-@ComponentScan({ "com.innovia.ai.music" })
-public class ApplicationTestConfig {
+public class ApplicationConfig {
 
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor() {
