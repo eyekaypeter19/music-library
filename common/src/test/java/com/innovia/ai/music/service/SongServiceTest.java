@@ -1,12 +1,11 @@
 package com.innovia.ai.music.service;
 
 import com.github.javafaker.Faker;
-import com.innovia.ai.music.config.ApplicationConfig;
+import com.innoviaai.music.musiclibrary.config.ApplicationConfig;
 import com.innovia.ai.music.datasource.db.model.SongModel;
 import com.innovia.ai.music.datasource.db.repository.SongRepository;
 import com.innovia.ai.music.dto.Song;
 import com.innovia.ai.music.mapper.SongMapper;
-import com.innovia.ai.music.service.SongService;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
