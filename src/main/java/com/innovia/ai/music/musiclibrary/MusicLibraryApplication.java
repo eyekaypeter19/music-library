@@ -1,9 +1,9 @@
-package com.innoviaai.music.musiclibrary;
+package com.innovia.ai.music.musiclibrary;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = {"com.innovia.ai.music", "com.innoviaai"})
+@SpringBootApplication(scanBasePackages = {"com.innovia.ai.music"})
 public class MusicLibraryApplication {
 
 

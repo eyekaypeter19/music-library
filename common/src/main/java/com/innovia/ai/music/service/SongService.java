@@ -7,12 +7,10 @@ import com.innovia.ai.music.dto.Song;
 import com.innovia.ai.music.exceptions.NotFoundException;
 import com.innovia.ai.music.mapper.SongMapper;
 import lombok.Setter;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -39,8 +37,7 @@ public class SongService {
 
     public void create(@Validated Song song) {
         SongModel model = songMapper.map(song);
-        model.setId(ObjectId.get().toString());
-        songRepository.insert(model);
+        songRepository.save(model);
     }
 
     public Song update(@NotNull @Valid Song song) {
@@ -54,13 +51,13 @@ public class SongService {
         return songMapper.map(model);
     }
 
-    public void Delete(@NotNull String id) {
+    public void Delete(@NotNull Long id) {
         SongModel model = new SongModel();
         model.setId(id);
         this.songRepository.delete(model);
     }
 
-    public Song get(@NotNull  String id) {
+    public Song get(@NotNull  Long id) {
         Optional<SongModel> model = this.songRepository.findById(id);
         if (model.isPresent()) {
             Song song = songMapper.map(model.get());
@@ -70,7 +67,7 @@ public class SongService {
     }
 
     public Page<Song> getAll(@NotNull Song song, PageRequest pageRequest) {
-        Page<SongModel> byAuthor = this.songRepository.findByAuthor(song.getSongAuthor(), pageRequest);
+        Page<SongModel> byAuthor = this.songRepository.findBySongAuthorContaining(song.getSongAuthor(), pageRequest);
         List<Song> songs = songMapper.map(byAuthor.getContent());
         return new PageImpl<>(songs, pageRequest, byAuthor.getTotalElements());
     }

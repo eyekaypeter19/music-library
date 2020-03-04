@@ -50,7 +50,7 @@ public class SongMapperTest {
         Song song = new Song();
         song.setSongAuthor(faker.artist().name());
         song.setSongTitle(faker.hipster().word());
-        song.setId(faker.idNumber().ssnValid());
+        song.setId(faker.number().randomNumber());
         SongModel model = songMapper.map(song);
         assertEquals(song.getSongAuthor(), model.getAuthor());
         assertEquals(song.getSongTitle(), model.getTitle());
@@ -63,7 +63,7 @@ public class SongMapperTest {
         SongModel song = new SongModel();
         song.setAuthor(faker.artist().name());
         song.setTitle(faker.hipster().word());
-        song.setId(faker.idNumber().ssnValid());
+        song.setId(faker.number().randomNumber());
         List<SongModel> songs = new ArrayList<>();
         songs.add(song);
         List<Song> mappedSongs = this.songMapper.map(songs);
