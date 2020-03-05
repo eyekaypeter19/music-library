@@ -2,6 +2,7 @@ package com.innovia.ai.music.controllers;
 
 import com.innovia.ai.music.common.dto.Song;
 import com.innovia.ai.music.common.service.SongService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.List;
+
+import static java.net.HttpURLConnection.*;
 
 @RestController
 @RequestMapping("/song")
@@ -27,7 +31,11 @@ public class SongController {
     @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Song> getSong(@PathVariable(name = "id") Long id) {
+    @ApiOperation(value = "Get A Song By The Id")
+    @ApiResponses(value = {
+            @ApiResponse(response = Song.class, code = HTTP_OK, message = "Ok")
+    })
+    public ResponseEntity<Song> getSong(@ApiParam(name = "id", required = true)@PathVariable(name = "id") Long id) {
         var song = songService.get(id);
         return ResponseEntity.ok(song);
     }
@@ -35,6 +43,10 @@ public class SongController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Get All Songs")
+    @ApiResponses(value = {
+            @ApiResponse(response = Page.class, code = HTTP_OK, message = "Ok")
+    })
     public ResponseEntity<Page<Song>> getAll(@RequestParam(value = "page", required = false, defaultValue = "0")int page,
                                              @RequestParam(value = "size", required = false, defaultValue = "15")int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
@@ -45,19 +57,30 @@ public class SongController {
     @PutMapping(value = "{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Song> update(@RequestBody @Valid Song song) {
+    @ApiOperation(value = "Update an existing song")
+    public ResponseEntity<Song> update(@RequestBody @Valid Song song, @ApiParam(value = "id", required = true) @PathParam(value = "id") Long id) {
+        song.setId(id);
         var updatedSong = songService.update(song);
         return ResponseEntity.ok(updatedSong);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Create a new song")
+    @ApiResponses(value = {
+            @ApiResponse(code = HTTP_CREATED, message = "Ok")
+    })
     public void create(@RequestBody @Valid Song song) {
         songService.create(song);
     }
 
+    //todo refactor this to check if anything was actually deleted
     @DeleteMapping(value = "{id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation(value = "Delete a Song")
+    @ApiResponses(value = {
+            @ApiResponse(code = HTTP_NO_CONTENT, message = "Ok")
+    })
     public void delete(@PathVariable("id") Long id) {
         songService.delete(id);
     }
