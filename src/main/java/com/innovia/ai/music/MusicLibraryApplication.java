@@ -13,9 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableAutoConfiguration
 @EnableSwagger2
 public class MusicLibraryApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(MusicLibraryApplication.class, args);
 	}
-
 }

@@ -54,9 +54,7 @@ public class SongService {
     }
 
     public void delete(@NotNull Long id) {
-        SongDbModel model = new SongDbModel();
-        model.setId(id);
-        this.songRepository.delete(model);
+        this.songRepository.deleteById(id);
     }
 
     public Song get(@NotNull  Long id) {
