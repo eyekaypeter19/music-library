@@ -1,5 +1,6 @@
 package com.innovia.ai.music.common.datasource.db.model;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.Immutable;
 
 import javax.persistence.*;
@@ -20,7 +21,9 @@ public class SongDbModel {
     @Column(name = "song_author", nullable = false)
     private String author;
 
-    @Column(name = "date_created", nullable = false)
+    @Column(name = "date_created", nullable = false, updatable = false)
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
 
     public Long getId() {
@@ -54,4 +57,5 @@ public class SongDbModel {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
+
 }
