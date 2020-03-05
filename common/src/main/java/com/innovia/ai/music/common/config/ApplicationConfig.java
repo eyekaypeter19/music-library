@@ -1,4 +1,4 @@
-package com.innovia.ai.music.config;
+package com.innovia.ai.music.common.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

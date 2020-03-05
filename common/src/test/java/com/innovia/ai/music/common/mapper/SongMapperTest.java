@@ -1,8 +1,8 @@
-package com.innovia.ai.music.mapper;
+package com.innovia.ai.music.common.mapper;
 
 import com.github.javafaker.Faker;
-import com.innovia.ai.music.datasource.db.model.SongModel;
-import com.innovia.ai.music.dto.Song;
+import com.innovia.ai.music.common.datasource.db.model.SongDbModel;
+import com.innovia.ai.music.common.dto.Song;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +34,7 @@ public class SongMapperTest {
 
     @Test
     public void testMappingFromModelIsCorrect() {
-        SongModel model = new SongModel();
+        SongDbModel model = new SongDbModel();
         model.setAuthor(faker.name().nameWithMiddle());
         model.setDateCreated(new Date());
         model.setTitle(faker.funnyName().name());
@@ -51,7 +51,7 @@ public class SongMapperTest {
         song.setSongAuthor(faker.artist().name());
         song.setSongTitle(faker.hipster().word());
         song.setId(faker.number().randomNumber());
-        SongModel model = songMapper.map(song);
+        SongDbModel model = songMapper.map(song);
         assertEquals(song.getSongAuthor(), model.getAuthor());
         assertEquals(song.getSongTitle(), model.getTitle());
         assertEquals(song.getId(), model.getId());
@@ -60,11 +60,11 @@ public class SongMapperTest {
 
     @Test
     public void testMappingFromListOfModelsIsCorrect() {
-        SongModel song = new SongModel();
+        SongDbModel song = new SongDbModel();
         song.setAuthor(faker.artist().name());
         song.setTitle(faker.hipster().word());
         song.setId(faker.number().randomNumber());
-        List<SongModel> songs = new ArrayList<>();
+        List<SongDbModel> songs = new ArrayList<>();
         songs.add(song);
         List<Song> mappedSongs = this.songMapper.map(songs);
         assertEquals(1, mappedSongs.size());

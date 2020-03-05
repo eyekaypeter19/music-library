@@ -1,8 +1,8 @@
-package com.innovia.ai.music.mapper;
+package com.innovia.ai.music.common.mapper;
 
 
-import com.innovia.ai.music.datasource.db.model.SongModel;
-import com.innovia.ai.music.dto.Song;
+import com.innovia.ai.music.common.datasource.db.model.SongDbModel;
+import com.innovia.ai.music.common.dto.Song;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Component;
@@ -19,15 +19,15 @@ public class SongMapper {
         this.modelMapper = modelMapper;
     }
 
-    public SongModel map(Song song) {
-        return this.modelMapper.map(song, SongModel.class);
+    public SongDbModel map(Song song) {
+        return this.modelMapper.map(song, SongDbModel.class);
     }
 
-    public Song map(SongModel model) {
+    public Song map(SongDbModel model) {
         return this.modelMapper.map(model, Song.class);
     }
 
-    public List<Song> map(List<SongModel> content) {
+    public List<Song> map(List<SongDbModel> content) {
         Type listType = new TypeToken<List<Song>>(){}.getType();
         List<Song> songList = modelMapper.map(content, listType);
         return songList;

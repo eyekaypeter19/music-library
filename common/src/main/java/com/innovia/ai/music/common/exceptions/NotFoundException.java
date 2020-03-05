@@ -1,4 +1,4 @@
-package com.innovia.ai.music.exceptions;
+package com.innovia.ai.music.common.exceptions;
 
 import lombok.Getter;
 

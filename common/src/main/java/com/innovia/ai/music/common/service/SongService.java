@@ -1,21 +1,22 @@
-package com.innovia.ai.music.service;
+package com.innovia.ai.music.common.service;
 
-import ch.qos.logback.core.encoder.ByteArrayUtil;
-import com.innovia.ai.music.datasource.db.model.SongModel;
-import com.innovia.ai.music.datasource.db.repository.SongRepository;
-import com.innovia.ai.music.dto.Song;
-import com.innovia.ai.music.exceptions.NotFoundException;
-import com.innovia.ai.music.mapper.SongMapper;
+import com.innovia.ai.music.common.datasource.db.model.SongDbModel;
+import com.innovia.ai.music.common.datasource.db.repository.SongRepository;
+import com.innovia.ai.music.common.dto.Song;
+import com.innovia.ai.music.common.exceptions.NotFoundException;
+import com.innovia.ai.music.common.mapper.SongMapper;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,29 +37,30 @@ public class SongService {
 
 
     public void create(@Validated Song song) {
-        SongModel model = songMapper.map(song);
+        SongDbModel model = songMapper.map(song);
+        model.setDateCreated(new Date());
         songRepository.save(model);
     }
 
     public Song update(@NotNull @Valid Song song) {
-        Optional<SongModel> optionalModel = songRepository.findById(song.getId());
+        Optional<SongDbModel> optionalModel = songRepository.findById(song.getId());
         if (optionalModel.isEmpty()) {
             throw new NotFoundException("Song with the specified Id does not exist");
         }
-        SongModel model = optionalModel.get();
+        SongDbModel model = optionalModel.get();
         model = songMapper.map(song);
         model = songRepository.save(model);
         return songMapper.map(model);
     }
 
-    public void Delete(@NotNull Long id) {
-        SongModel model = new SongModel();
+    public void delete(@NotNull Long id) {
+        SongDbModel model = new SongDbModel();
         model.setId(id);
         this.songRepository.delete(model);
     }
 
     public Song get(@NotNull  Long id) {
-        Optional<SongModel> model = this.songRepository.findById(id);
+        Optional<SongDbModel> model = this.songRepository.findById(id);
         if (model.isPresent()) {
             Song song = songMapper.map(model.get());
             return song;
@@ -66,8 +68,9 @@ public class SongService {
        throw new NotFoundException(String.format("Song with the id %s could not be found", id));
     }
 
-    public Page<Song> getAll(@NotNull Song song, PageRequest pageRequest) {
-        Page<SongModel> byAuthor = this.songRepository.findBySongAuthorContaining(song.getSongAuthor(), pageRequest);
+    public Page<Song> getAll(Pageable pageRequest) {
+        Page<SongDbModel> byAuthor = this.songRepository.findAll(
+                pageRequest);
         List<Song> songs = songMapper.map(byAuthor.getContent());
         return new PageImpl<>(songs, pageRequest, byAuthor.getTotalElements());
     }

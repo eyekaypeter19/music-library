@@ -1,4 +1,4 @@
-package com.innovia.ai.music.musiclibrary;
+package com.innovia.ai.music.common.musiclibrary;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

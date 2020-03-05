@@ -1,4 +1,4 @@
-package com.innovia.ai.music.dto;
+package com.innovia.ai.music.common.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
