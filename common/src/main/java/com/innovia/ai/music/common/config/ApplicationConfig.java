@@ -17,7 +17,8 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public MethodValidationPostProcessor methodValidationPostProcessor() {
+    public MethodValidationPostProcessor methodValidationPostProcessor()
+    {
         return new MethodValidationPostProcessor();
     }
 }

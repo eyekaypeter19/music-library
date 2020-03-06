@@ -15,9 +15,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ApiError {
 
-
-
-
     @ApiModelProperty(value = "(optional) Text that provide more details and corrective actions related to the error.")
     private String message;
 

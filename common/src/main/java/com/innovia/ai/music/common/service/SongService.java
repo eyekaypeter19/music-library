@@ -38,7 +38,7 @@ public class SongService {
         this.songMapper = mapper;
     }
 
-    public void create(@Validated Song song) {
+    public void create(@Valid Song song) {
         SongDbModel model = songMapper.map(song);
         model.setDateCreated(new Date());
         songRepository.save(model);
