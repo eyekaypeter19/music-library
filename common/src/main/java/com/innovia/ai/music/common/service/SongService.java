@@ -6,7 +6,9 @@ import com.innovia.ai.music.common.dto.Song;
 import com.innovia.ai.music.common.exceptions.NotFoundException;
 import com.innovia.ai.music.common.mapper.SongMapper;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -17,10 +19,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @Validated
+@Slf4j
 public class SongService {
 
     @Autowired
@@ -33,7 +37,6 @@ public class SongService {
     public SongService(SongMapper mapper) {
         this.songMapper = mapper;
     }
-
 
     public void create(@Validated Song song) {
         SongDbModel model = songMapper.map(song);
@@ -53,7 +56,12 @@ public class SongService {
     }
 
     public void delete(@NotNull Long id) {
-        this.songRepository.deleteById(id);
+        try {
+            this.songRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException exception) {
+            log.error(exception.getMessage());
+        }
+
     }
 
     public Song get(@NotNull  Long id) {
@@ -65,10 +73,18 @@ public class SongService {
        throw new NotFoundException(String.format("Song with the id %s could not be found", id));
     }
 
-    public Page<Song> getAll(Pageable pageRequest) {
-        Page<SongDbModel> byAuthor = this.songRepository.findAll(
-                pageRequest);
+    public Page<Song> getAll(String title, Pageable pageRequest) {
+        Page<SongDbModel> byAuthor;
+        if(Objects.isNull(title) || title.isBlank()) {
+            byAuthor = this.songRepository.findAll(
+                    pageRequest);
+        }
+        else {
+            byAuthor = this.songRepository.findByTitleContaining(title,
+                    pageRequest);
+        }
         List<Song> songs = songMapper.map(byAuthor.getContent());
         return new PageImpl<>(songs, pageRequest, byAuthor.getTotalElements());
+
     }
 }

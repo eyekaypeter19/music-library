@@ -35,6 +35,7 @@ public class DocketConfig {
                         .not(RequestHandlerSelectors.basePackage("org.springframework.data.rest.webmvc")))
                 .paths(PathSelectors.any()).build().apiInfo(apiInfo)
                 .genericModelSubstitutes(Optional.class)
+                .useDefaultResponseMessages(false)
                 .directModelSubstitute(Timestamp.class, String.class);
     }
 }

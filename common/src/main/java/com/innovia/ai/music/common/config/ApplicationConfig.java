@@ -13,14 +13,7 @@ public class ApplicationConfig {
 
     @Bean
     public ModelMapper getMapper(){
-        ModelMapper mapper = new ModelMapper();
-        mapper.addMappings(new PropertyMap<Song, SongDbModel>() {
-            @Override
-            protected void configure() {
-                skip(destination.getDateCreated());
-            }
-        });
-        return mapper;
+        return new ModelMapper();
     }
 
     @Bean
