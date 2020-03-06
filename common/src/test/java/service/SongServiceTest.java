@@ -1,4 +1,4 @@
-package com.innovia.ai.music.common.service;
+package service;
 
 import com.github.javafaker.Faker;
 import com.innovia.ai.music.common.datasource.db.model.SongDbModel;

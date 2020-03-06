@@ -1,4 +1,4 @@
-package com.innovia.ai.music.common.service;
+package service;
 
 import com.innovia.ai.music.common.datasource.db.model.SongDbModel;
 import com.innovia.ai.music.common.datasource.db.repository.SongRepository;
@@ -9,7 +9,6 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
