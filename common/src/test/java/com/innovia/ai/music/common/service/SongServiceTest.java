@@ -80,9 +80,9 @@ public class SongServiceTest {
     @Test
     public void delete() {
         var id = new Random().nextLong();
-        doNothing().when(songRepository).delete(any(SongDbModel.class));
+        doNothing().when(songRepository).deleteById(anyLong());
         songService.delete(id);
-        verify(songRepository, times(1)).delete(any(SongDbModel.class));
+        verify(songRepository, times(1)).deleteById(anyLong());
     }
 
     @Test
