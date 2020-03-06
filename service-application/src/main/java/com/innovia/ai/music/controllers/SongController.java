@@ -33,7 +33,7 @@ public class SongController {
     @ApiResponses(value = {
             @ApiResponse(response = Song.class, code = HTTP_OK, message = "Ok")
     })
-    public ResponseEntity<Song> getSong(@ApiParam(name = "id", required = true)@PathVariable(name = "id") Long id) {
+    public ResponseEntity<Song> getSong(@ApiParam(name = "id", required = true, example = "123")@PathVariable(name = "id") Long id) {
         var song = songService.get(id);
         return ResponseEntity.ok(song);
     }
@@ -49,14 +49,13 @@ public class SongController {
                                              @RequestParam(value = "size", required = false, defaultValue = "15")int pageSize) {
         Pageable pageable = PageRequest.of(page, pageSize);
         return ResponseEntity.ok(songService.getAll(pageable));
-
     }
 
     @PutMapping(value = "{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Update an existing song")
-    public ResponseEntity<Song> update(@RequestBody @Valid Song song, @ApiParam(value = "id", required = true) @PathVariable(name = "id") Long id) {
+    public ResponseEntity<Song> update(@RequestBody @Valid Song song, @ApiParam(value = "id", required = true, example = "1") @PathVariable(name = "id") Long id) {
         song.setId(id);
         var updatedSong = songService.update(song);
         return ResponseEntity.ok(updatedSong);
