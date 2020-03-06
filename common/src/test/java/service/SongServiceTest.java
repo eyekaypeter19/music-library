@@ -6,6 +6,7 @@ import com.innovia.ai.music.common.datasource.db.model.SongDbModel;
 import com.innovia.ai.music.common.datasource.db.repository.SongRepository;
 import com.innovia.ai.music.common.dto.Song;
 import com.innovia.ai.music.common.config.ApplicationConfig;
+import com.innovia.ai.music.common.exceptions.NotFoundException;
 import com.innovia.ai.music.common.mapper.SongMapper;
 
 import com.innovia.ai.music.common.service.SongService;
@@ -62,6 +63,7 @@ public class SongServiceTest {
         verify(songRepository, times(1)).save(any(SongDbModel.class));
     }
 
+
     @Test
     public void update() {
         var id = new Random().nextLong();
@@ -77,6 +79,20 @@ public class SongServiceTest {
         verify(songRepository, times(1)).findById(anyLong());
         verify(songRepository, times(1)).save(any(SongDbModel.class));
 
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void testUpdateFailsWithNotFoundIfRecordDoesNotExist() {
+        var id = new Random().nextLong();
+        Song song = new Song();
+        song.setSongAuthor(faker.artist().name());
+        song.setSongTitle(faker.shakespeare().asYouLikeItQuote());
+        song.setId(id);
+        doReturn(getSongModel(song)).when(songRepository).save(any(SongDbModel.class));
+        doReturn(Optional.empty()).when(songRepository).findById(anyLong());
+        var newSong = songService.update(song);
+        verify(songRepository, times(1)).findById(anyLong());
+        verify(songRepository, never()).save(any(SongDbModel.class));
     }
 
     @Test
@@ -98,19 +114,11 @@ public class SongServiceTest {
         verify(songRepository, atLeastOnce()).findById(eq(id));
     }
 
-//    @Test
-//    public void getAll() {
-//        Song song = new Song();
-//        song.setSongAuthor(faker.lordOfTheRings().character());
-//        doReturn(new PageImpl<>(List.of(getSongModel()), PageRequest.of(0,1), 1)).when(
-//                songRepository).findBySongAuthorContaining(anyString(), any(Pageable.class));
-//        var res = songService.getAll(song, PageRequest.of(0,10));
-//        assertTrue(res.hasContent());
-//        verify(songRepository, times(1)).findBySongAuthorContaining(eq(song.getSongAuthor()), eq(PageRequest.of(
-//                0, 10
-//        )));
-//    }
-
+    @Test(expected = NotFoundException.class)
+    public void getByIdThrowsNotFoundException() {
+        doReturn(Optional.empty()).when(songRepository).findById(anyLong());
+        Song song = songService.get(34L);
+    }
 
     private SongDbModel getSongModel() {
         var id = new Random().nextLong();
