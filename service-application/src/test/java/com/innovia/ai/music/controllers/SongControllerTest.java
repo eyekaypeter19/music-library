@@ -1,4 +1,4 @@
-package controllers;
+package com.innovia.ai.music.controllers;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

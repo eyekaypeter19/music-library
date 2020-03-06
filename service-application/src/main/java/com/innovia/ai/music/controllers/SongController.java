@@ -1,7 +1,7 @@
 package com.innovia.ai.music.controllers;
 
 import com.innovia.ai.music.common.dto.Song;
-import service.SongService;
+import com.innovia.ai.music.common.service.SongService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;

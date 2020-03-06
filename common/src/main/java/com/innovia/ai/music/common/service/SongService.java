@@ -1,4 +1,4 @@
-package service;
+package com.innovia.ai.music.common.service;
 
 import com.innovia.ai.music.common.datasource.db.model.SongDbModel;
 import com.innovia.ai.music.common.datasource.db.repository.SongRepository;
