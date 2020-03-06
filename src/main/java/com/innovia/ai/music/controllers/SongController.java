@@ -2,22 +2,20 @@ package com.innovia.ai.music.controllers;
 
 import com.innovia.ai.music.common.dto.Song;
 import com.innovia.ai.music.common.service.SongService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
-import java.util.List;
 
 import static java.net.HttpURLConnection.*;
 
@@ -58,7 +56,7 @@ public class SongController {
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Update an existing song")
-    public ResponseEntity<Song> update(@RequestBody @Valid Song song, @ApiParam(value = "id", required = true) @PathParam(value = "id") Long id) {
+    public ResponseEntity<Song> update(@RequestBody @Valid Song song, @ApiParam(value = "id", required = true) @PathVariable(name = "id") Long id) {
         song.setId(id);
         var updatedSong = songService.update(song);
         return ResponseEntity.ok(updatedSong);
