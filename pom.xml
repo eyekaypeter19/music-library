@@ -93,7 +93,5 @@
 			<version>2.9.2</version>
 			<scope>compile</scope>
 		</dependency>
-
 	</dependencies>
-
 </project>
