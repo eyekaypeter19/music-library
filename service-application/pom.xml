@@ -9,6 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>service-application</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>service-application</name>
+    <packaging>jar</packaging>
     <dependencies>
             <dependency>
                 <groupId>com.innovia.ai</groupId>
@@ -18,10 +21,30 @@
     </dependencies>
 
     <build>
+        <finalName>service-application</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>com.coderplus.maven.plugins</groupId>
+                <artifactId>copy-rename-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-file</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFile>${pom.basedir}/target/service-application.jar</sourceFile>
+                            <destinationFile>${pom.basedir}/../service-application.jar </destinationFile>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
 <!--            <plugin>-->

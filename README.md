@@ -23,3 +23,9 @@ java -jar service-application-VERSION.jar
 3. Modify and fire requests as you deem appropriate.
 
 ### Testing with docker.
+1. Install docker if you haven't already done so.
+2. Build the music library root project
+3. Navigate to the project root folder 
+4. Run the following command  ```docker build -t innovia/song-library .```
+5. Run the docker image using the following command ```docker run -p 8080:8080 innovia/song-library```
+6. Navigate to [http"//localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html#) to testdrive the endpoints
